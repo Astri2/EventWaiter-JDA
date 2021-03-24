@@ -1,8 +1,8 @@
 # EventWaiter-JDA
 an EventWaiter for JDA discord bot library in java
 
-#24/03/2021
-#Astri_
+#24/03/2021 by Astri_
+
 
 to register a new Waiter, use EventWaiter.register(Waiter waiter);
 if you want to unregister a waiter, use EventWaiter.unregister(Waiter waiter) or  EventWaiter.unregister(WaiterAction action) if you are inside the waiter action block
