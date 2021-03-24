@@ -34,8 +34,10 @@ public Waiter(Class<T> eventType, Predicate<T> conditions, Consumer<WaiterAction
 
 **Examples :**
 
-A waiter that will repeat everything you say until you say "stop" or after 5 minutes :\n
+A waiter that will repeat everything you say until you say "stop" or after 5 minutes :
+
 _please note that your IDE may have difficulties to understand the type of your event. That's why I recommand to put the event type between the <> of `new Waiter<>` at first, and then remove it when you're done_
+
 ```java
 EventWaiter.register(new Waiter<>(
   GuildMessageReceivedEvent.class,
