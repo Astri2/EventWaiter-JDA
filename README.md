@@ -3,6 +3,13 @@ an EventWaiter for JDA discord bot library in java
 
 #24/03/2021 by Astri_
 
+First you'll have to register the EventWaiter class listener : 
+```java
+<jda>.addEventListeners(
+  new EventWaiter() //,
+  //your other listeners
+);
+```
 
 to register a new Waiter, use EventWaiter.register(Waiter waiter);
 if you want to unregister a waiter, use EventWaiter.unregister(Waiter waiter) or  EventWaiter.unregister(WaiterAction action) if you are inside the waiter action block
