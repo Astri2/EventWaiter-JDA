@@ -3,6 +3,8 @@ an EventWaiter for JDA discord bot library in java
 
 #24/03/2021 by Astri_
 
+**How to use it:**
+
 First you'll have to register the EventWaiter class listener : 
 ```java
 <jda>.addEventListeners(
@@ -11,8 +13,7 @@ First you'll have to register the EventWaiter class listener :
 );
 ```
 
-to register a new Waiter, use EventWaiter.register(Waiter waiter);
-if you want to unregister a waiter, use EventWaiter.unregister(Waiter waiter) or  EventWaiter.unregister(WaiterAction action) if you are inside the waiter action block
+Then you'll have to create a Waiter variable :
 
 ```java
 public Waiter(Class<T> eventType, Predicate<T> conditions, Consumer<WaiterAction<T>> action, boolean autoRemove, Long expirationTime, TimeUnit timeUnit, Runnable timeoutAction) {
@@ -39,11 +40,30 @@ public Waiter(Class<T> eventType, Predicate<T> conditions, Consumer<WaiterAction
 }
 ```
 
+And finnally register/unregister it : 
+
+  to register a new Waiter, use EventWaiter.register(Waiter waiter);
+  to unregister a Waiter, use EventWaiter.unregister(Waiter waiter) or EventWaiter.unregister(WaiterAction action) if you are inside the waiter action block
+
+**Tip :**
+
+the IDE will probably have difficulties to understand the type of your eventWaiter. It may lead to auto-completion failures.
+I advise you to first make a template of your constructor while putting all your lambda arguments to null, and then replace the null by your lambdas 
+
+example of waiter template :
+
+```java
+EventWaiter.register(new Waiter<>(
+  null,
+  null,
+  null,
+  true
+));
+```
+
 **Examples :**
 
 A waiter that will repeat everything you say until you say "stop" or after 5 minutes :
-
-_please note that your IDE may have difficulties to understand the type of your event. That's why I recommand to put the event type between the <> of `new Waiter<>` at first, and then remove it when you're done_
 
 ```java
 EventWaiter.register(new Waiter<>(
