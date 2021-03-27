@@ -1,15 +1,15 @@
 # 👋 Hello!
-=======
+
 Here is a small projet that allows you create an event waiter with the discord jda library!
 If you find a bug or have any suggestion, please contact me!
 
 # ❓ What is it for?
-=======
+
 This projet will allow you to easily create waiters.
 For instance, making a reaction role or a bingo game will now be child's play!
 
 # 📂 How to install ?
-=======
+
 You have to download the 3 following .java files and add them in a **single** package:
 
    * [EventWaiter.java](https://github.com/Astri2/EventWaiter-JDA/blob/main/EventWaiterPackage/EventWaiter.java)
@@ -17,7 +17,7 @@ You have to download the 3 following .java files and add them in a **single** pa
    * [WaiterAction.java](https://github.com/Astri2/EventWaiter-JDA/blob/main/EventWaiterPackage/WaiterAction.java)
 
 # 📚 How to setup ?
-=======
+
 The only setup step is to register the [EventWaiter](https://github.com/Astri2/EventWaiter-JDA/blob/main/EventWaiter.java) in your JDABuilder object:
 ```java
 public class Bot {
@@ -30,7 +30,7 @@ public class Bot {
 ```
 
 # 🖥 How to create a waiter ?
-=======
+
 Now you have to create a [Waiter](https://github.com/Astri2/EventWaiter-JDA/blob/main/Waiter.java) object:
 
 _note that T is a template extending from `GenericEvent`_
@@ -71,7 +71,7 @@ Waiter<GuildMessageReceivedEvent> waiter = new Waiter<>(
 ```
 
 # How to register and unregister the waiter?
-=======
+
 To register your just created waiter:
 ```java
 EventWaiter.register(waiter);
