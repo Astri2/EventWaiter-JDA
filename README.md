@@ -10,7 +10,7 @@ For instance, making a reaction role or a bingo game will now be child's play!
 
 # 📂 How to install ?
 
-You have to download the 3 following .java files and add them in a **single** package:
+You have to download the 3 following .java files and add them in a __**single**__ package:
 
    * [EventWaiter.java](https://github.com/Astri2/EventWaiter-JDA/blob/main/EventWaiterPackage/EventWaiter.java)
    * [Waiter.java](https://github.com/Astri2/EventWaiter-JDA/blob/main/EventWaiterPackage/Waiter.java)
@@ -22,7 +22,7 @@ The only setup step is to register the [EventWaiter](https://github.com/Astri2/E
 ```java
 public class Bot {
     public static void main(String[] args) {
-        JDA jda = JDABuilder.createDefault("token)
+        JDA jda = JDABuilder.createDefault("token")
             .addEventListerners(new EventWaiter())
             .build();
     }
