@@ -45,15 +45,15 @@ _note that T is a template extending from [GenericEvent](https://github.com/DV8F
 
    * Then, here is the list of all the Waiter attributes that you can acces to :
 
-| Attribute | Description |
-|-|:-:|
-| eventType | the class of event you'll be waiting for (e.g. GuildMessageReceived.class) |
-| conditions | all the conditions that an event must meet to execute the waiter action |
-| action | the action that will be executed if the conditions are fulfilled |
-| autoRemove | will the waiter be unregistered once the action is executed ? if false, you may want to [unregister the waiter](#-how-to-register-and-unregister-the-waiter) by yourself |
-| long expirationTime | the time after which the waiter will be unregistered automatically |
-| TimeUnit timeUnit | the unit of the previous time |
-| Runnable timeoutAction | the action that will be executed once the waiter expires (null if no action) |
+| Attribute | Type | Description |
+|-|:-:|:-:|
+| eventType | Class<T> | the class of the event you'll be waiting for |
+| conditions | Predicate<T> | all the conditions that an event must meet to execute the waiter's action |
+| action | Consumer<WaiterAction<T>> | the action that will be executed if the conditions are fulfilled |
+| autoRemove | boolean | will the waiter be unregistered once the action is executed ? if false, you may want to [unregister the waiter](#-how-to-register-and-unregister-the-waiter) by yourself |
+| expirationTime | long | the time after which the waiter will be unregistered automatically |
+| timeUnit | TimeUnit | the unit of the previous time |
+| timeoutAction | Runnable | the action that will be executed once the waiter expires (null if no action) |
     
 You can access to all of them using getter / setters.
 To access to the event inside of the waiter action, use action.getEvent()
