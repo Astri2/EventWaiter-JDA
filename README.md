@@ -31,7 +31,7 @@ public class Bot {
 
 # 🖥 How to create a waiter ?
 
-Now you have to create a [Waiter](https://github.com/Astri2/EventWaiter-JDA/blob/main/Waiter.java) object:
+Now you have to create a [Waiter](https://github.com/Astri2/EventWaiter-JDA/blob/main/EventWaiterPackage/Waiter.java) object:
 
 _note that T is a template extending from [GenericEvent](https://github.com/DV8FromTheWorld/JDA/blob/master/src/main/java/net/dv8tion/jda/api/events/GenericEvent.java)_
 
