@@ -117,16 +117,16 @@ waiter
     .setExpirationTime(2L, TimeUnit.MINUTES)
     .setTimeoutAction(() -> event.getChannel().sendMessage("no one found :sob: The number was " + number).queue())
     .setAction(action -> {
-    if(action.getEvent().getMessage().getContentRaw().equals(number)) {
-        action.getEvent().getMessage().addReaction("✅").queue();
-        action.getEvent().getChannel().sendMessage("GG " + action.getEvent().getAuthor().getAsMention() + "! You found the number! It was " + number).queue();
-        EventWaiter.unregister(action);
-    }
-    else {
-        action.getEvent().getMessage().addReaction("❌").queue();
-        action.getEvent().getMessage().delete().queueAfter(5,TimeUnit.SECONDS);
-    }
-});
+        if(action.getEvent().getMessage().getContentRaw().equals(number)) {
+            action.getEvent().getMessage().addReaction("✅").queue();
+            action.getEvent().getChannel().sendMessage("GG " + action.getEvent().getAuthor().getAsMention() + "! You found the number! It was " + number).queue();
+            EventWaiter.unregister(action);
+        }
+        else {
+            action.getEvent().getMessage().addReaction("❌").queue();
+            action.getEvent().getMessage().delete().queueAfter(5,TimeUnit.SECONDS);
+        }
+    });
 EventWaiter.register(waiter);
 ```
 
