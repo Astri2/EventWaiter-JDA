@@ -70,7 +70,7 @@ Waiter<GuildMessageReceivedEvent> waiter = new Waiter<>(
 );
 ```
 
-# How to register and unregister the waiter?
+# ⚒ How to register and unregister the waiter?
 
 To register your just created waiter:
 ```java
