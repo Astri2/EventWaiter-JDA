@@ -33,7 +33,7 @@ public class Bot {
 
 Now you have to create a [Waiter](https://github.com/Astri2/EventWaiter-JDA/blob/main/Waiter.java) object:
 
-_note that T is a template extending from `GenericEvent`_
+_note that T is a template extending from [GenericEvent](https://github.com/DV8FromTheWorld/JDA/blob/master/src/main/java/net/dv8tion/jda/api/events/GenericEvent.java)_
 
    * First comes the constructors : 
 
@@ -47,17 +47,17 @@ _note that T is a template extending from `GenericEvent`_
 
 | Attribute | Description |
 |-|:-:|
-| Class<T> eventType | the class of event you'll be waiting for (e.g. GuildMessageReceived.class) |
-| Predicate<T> conditions | all the conditions that an event must meet to execute the waiter action |
-| Consumer<WaiterAction<T>> action | the action that will be executed if the conditions are fulfilled |
-| boolean autoRemove | will the waiter be unregistered once the action is executed ? if false, you may want to [unregister the waiter](#how-to-register-unregister-the-waiter)
- by yourself |
+| eventType | the class of event you'll be waiting for (e.g. GuildMessageReceived.class) |
+| conditions | all the conditions that an event must meet to execute the waiter action |
+| action | the action that will be executed if the conditions are fulfilled |
+| autoRemove | will the waiter be unregistered once the action is executed ? if false, you may want to [unregister the waiter](#how-to-register-unregister-the-waiter) by yourself |
 | long expirationTime | the time after which the waiter will be unregistered automatically |
 | TimeUnit timeUnit | the unit of the previous time |
 | Runnable timeoutAction | the action that will be executed once the waiter expires (null if no action) |
     
 You can access to all of them using getter / setters.
 To access to the event inside of the waiter action, use action.getEvent()
+
 
 While creating the waiter, the IDE may be lost and erroring/failing at auto-completion.
 That's why I recommand you to first make a "template" of your constructor by setting all your lambda arguments to null, and then replace the null values by your lambdas:
