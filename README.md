@@ -18,7 +18,7 @@ You have to download the 3 following .java files and add them in a __**single**_
 
 # 📚 How to setup ?
 
-The only setup step is to register the [EventWaiter](https://github.com/Astri2/EventWaiter-JDA/blob/main/EventWaiter.java) in your JDABuilder object:
+The only setup step is to register the [EventWaiter](https://github.com/Astri2/EventWaiter-JDA/blob/main/EventWaiterPackage/EventWaiter.java) in your JDABuilder object:
 ```java
 public class Bot {
     public static void main(String[] args) {
