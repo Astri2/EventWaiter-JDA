@@ -1,84 +1,136 @@
-# EventWaiter-JDA
-an EventWaiter for JDA discord bot library in java
+# 👋 Hello!
+=======
+Here is a small projet that allows you create an event waiter with the discord jda library!
+If you find a bug or have any suggestion, please contact me!
 
-#24/03/2021 by Astri_
+# ❓ What is it for?
+=======
+This projet will allow you to easily create waiters.
+For instance, making a reaction role or a bingo game will now be child's play!
 
-**How to use it:**
+# 📂 How to install ?
+=======
+You have to download the 3 following .java files and add them in a **single** package:
 
-First you'll have to register the EventWaiter class listener : 
+   * [EventWaiter.java](https://github.com/Astri2/EventWaiter-JDA/blob/main/EventWaiterPackage/EventWaiter.java)
+   * [Waiter.java](https://github.com/Astri2/EventWaiter-JDA/blob/main/EventWaiterPackage/Waiter.java)
+   * [WaiterAction.java](https://github.com/Astri2/EventWaiter-JDA/blob/main/EventWaiterPackage/WaiterAction.java)
+
+# 📚 How to setup ?
+=======
+The only setup step is to register the [EventWaiter](https://github.com/Astri2/EventWaiter-JDA/blob/main/EventWaiter.java) in your JDABuilder object:
 ```java
-<jda>.addEventListeners(
-  new EventWaiter() //,
-  //your other listeners
-);
-```
-
-Then you'll have to create a Waiter variable :
-
-```java
-public Waiter(Class<T> eventType, Predicate<T> conditions, Consumer<WaiterAction<T>> action, boolean autoRemove, Long expirationTime, TimeUnit timeUnit, Runnable timeoutAction) {
-  //the class of your event type, used in privates methods and to make java understand your template type
-  this.eventType = eventType; 
-  
-  //a predicate of the type of your event, used to test if an event match with the events wanted in the waiter
-  this.conditions = conditions; 
-  
-  //the action that will be performed once the conditions are fullfilled
-  this.action = action; 
-  
-  //will the waiter get removed once the action is done ? (if no, you'll have to unregister it manually or wait for it to expire)
-  this.autoRemove = autoRemove; 
-  
-  //the duration of your waiter, it is a long (ex: "5**L**)
-  this.expirationTime = expirationTime; 
-  
-  //the unit of your duration
-  this.timeUnit = timeUnit; 
-  
-  //can be null, the action that is performed once the waiter expire (won't be triggered if the waiter is removed by another way)
-  this.timeoutAction = timeoutAction; 
+public class Bot {
+    public static void main(String[] args) {
+        JDA jda = JDABuilder.createDefault("token)
+            .addEventListerners(new EventWaiter())
+            .build();
+    }
 }
 ```
 
-And finnally register/unregister it : 
+# 🖥 How to create a waiter ?
+=======
+Now you have to create a [Waiter](https://github.com/Astri2/EventWaiter-JDA/blob/main/Waiter.java) object:
 
-  to register a new Waiter, use EventWaiter.register(Waiter waiter);
-  to unregister a Waiter, use EventWaiter.unregister(Waiter waiter) or EventWaiter.unregister(WaiterAction action) if you are inside the waiter action block
+_note that T is a template extending from `GenericEvent`_
 
-**Tip :**
+   * First comes the constructors : 
 
-the IDE will probably have difficulties to understand the type of your eventWaiter. It may lead to auto-completion failures.
-I advise you to first make a template of your constructor while putting all your lambda arguments to null, and then replace the null by your lambdas 
+| Constructor | Description |
+|-|:-:|
+| Waiter(Class<T> eventType, Predicate<T> conditions, Consumer<WaiterAction<T>> action, boolean autoRemove, Long expirationTime, TimeUnit timeUnit) | The full constructor. |
+| Waiter(Class eventType, Predicate conditions, Consumer> action, boolean autoRemove) | The constructor without expiration handling. by default the expiration time will be set to 1 minute. |
+| Waiter() | The empty constructor.  You'll have to set the attributes by yourself.  |
 
-example of waiter template :
+   * Then, here is the list of all the Waiter attributes that you can acces to :
 
+| Attribute | Description |
+|-|:-:|
+| Class<T> eventType | the class of event you'll be waiting for (e.g. GuildMessageReceived.class) |
+| Predicate<T> conditions | all the conditions that an event must meet to execute the waiter action |
+| Consumer<WaiterAction<T>> action | the action that will be executed if the conditions are fulfilled |
+| boolean autoRemove | will the waiter be unregistered once the action is executed ? if false, you may want to [unregister the waiter](#how-to-register-unregister-the-waiter)
+ by yourself |
+| long expirationTime | the time after which the waiter will be unregistered automatically |
+| TimeUnit timeUnit | the unit of the previous time |
+| Runnable timeoutAction | the action that will be executed once the waiter expires (null if no action) |
+    
+You can access to all of them using getter / setters.
+To access to the event inside of the waiter action, use action.getEvent()
+
+While creating the waiter, the IDE may be lost and erroring/failing at auto-completion.
+That's why I recommand you to first make a "template" of your constructor by setting all your lambda arguments to null, and then replace the null values by your lambdas:
+```java
+Waiter<GuildMessageReceivedEvent> waiter = new Waiter<>(
+    GuildMessageReceivedEvent.class,
+    null,
+    null,
+    true
+);
+```
+
+# How to register and unregister the waiter?
+=======
+To register your just created waiter:
+```java
+EventWaiter.register(waiter);
+```
+To unregister the waiter while you still have acces to it:
+```java
+EventWaiter.unregister(waiter);
+```
+To unregister the waiter from the performed action:
+```java
+EventWaiter.unregister(action);
+```
+
+# 🎲 Example time!
+
+In the examples, I will use these two variables:
+| Variable | Description |
+|-|:-:|
+| event | the waiter creation event |
+| e | the event that will trigger the waiter |
+
+* A waiter that will repeat your next message (within 1 minute)
 ```java
 EventWaiter.register(new Waiter<>(
-  null,
-  null,
-  null,
-  true
+    GuildMessageReceivedEvent.class,
+    e -> (!e.getMessage().equals(event.getMessage()) && e.getAuthor().equals(event.getAuthor())),
+    action -> action.getEvent().getChannel().sendMessage(action.getEvent().getMessage().getContentRaw()).queue(),
+    true
 ));
 ```
 
-**Examples :**
-
-A waiter that will repeat everything you say until you say "stop" or after 5 minutes :
-
+* A bingo game 
 ```java
-EventWaiter.register(new Waiter<>(
-  GuildMessageReceivedEvent.class,
-  e -> (!e.getMessage().equals(event.getMessage()) && e.getAuthor().equals(event.getAuthor())),
-  action -> {
-    if(action.getEvent().getMessage().getContentRaw().equals("stop")) {
-      EventWaiter.unregister(action);
-      return;
-    }
-    action.getEvent().getChannel().sendMessage("you said : " 
-      + action.getEvent().getMessage().getContentRaw()).queue();
-  },
-  false,
-  5L, TimeUnit.MINUTES,
-  () -> event.getChannel().sendMessage("waiter expired!").queue()
-));
+int range = 20;
+        String number = Integer.toString ((int) (Math.random() * range));
+        System.out.println(number);
+
+        Waiter<GuildMessageReceivedEvent> waiter = new Waiter<>();
+        waiter
+                .setEventType(GuildMessageReceivedEvent.class)
+                .setConditions(e -> !e.getMessage().equals(event.getMessage()) && e.getChannel().equals(event.getChannel()))
+                .setAutoRemove(false)
+                .setExpirationTime(2L, TimeUnit.MINUTES)
+                .setTimeoutAction(() -> event.getChannel().sendMessage("no one found :sob: The number was " + number).queue())
+                .setAction(action -> {
+                    if(action.getEvent().getMessage().getContentRaw().equals(number)) {
+                        action.getEvent().getMessage().addReaction("✅").queue();
+                        action.getEvent().getChannel().sendMessage("GG " + action.getEvent().getAuthor().getAsMention() + "! You found the number! It was " + number).queue();
+                        EventWaiter.unregister(action);
+                    }
+                    else {
+                        action.getEvent().getMessage().addReaction("❌").queue();
+                        action.getEvent().getMessage().delete().queueAfter(5,TimeUnit.SECONDS);
+                    }
+                });
+        EventWaiter.register(waiter);
+```
+
+* A reaction role
+```java
+TODO create a reaction role
 ```
