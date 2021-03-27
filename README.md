@@ -50,7 +50,7 @@ _note that T is a template extending from [GenericEvent](https://github.com/DV8F
 | eventType | the class of event you'll be waiting for (e.g. GuildMessageReceived.class) |
 | conditions | all the conditions that an event must meet to execute the waiter action |
 | action | the action that will be executed if the conditions are fulfilled |
-| autoRemove | will the waiter be unregistered once the action is executed ? if false, you may want to [unregister the waiter](#how-to-register-unregister-the-waiter) by yourself |
+| autoRemove | will the waiter be unregistered once the action is executed ? if false, you may want to [unregister the waiter](#how-to-register-and-unregister-the-waiter) by yourself |
 | long expirationTime | the time after which the waiter will be unregistered automatically |
 | TimeUnit timeUnit | the unit of the previous time |
 | Runnable timeoutAction | the action that will be executed once the waiter expires (null if no action) |
@@ -106,28 +106,28 @@ EventWaiter.register(new Waiter<>(
 * A bingo game 
 ```java
 int range = 20;
-        String number = Integer.toString ((int) (Math.random() * range));
-        System.out.println(number);
+String number = Integer.toString ((int) (Math.random() * range));
+System.out.println(number);
 
-        Waiter<GuildMessageReceivedEvent> waiter = new Waiter<>();
-        waiter
-                .setEventType(GuildMessageReceivedEvent.class)
-                .setConditions(e -> !e.getMessage().equals(event.getMessage()) && e.getChannel().equals(event.getChannel()))
-                .setAutoRemove(false)
-                .setExpirationTime(2L, TimeUnit.MINUTES)
-                .setTimeoutAction(() -> event.getChannel().sendMessage("no one found :sob: The number was " + number).queue())
-                .setAction(action -> {
-                    if(action.getEvent().getMessage().getContentRaw().equals(number)) {
-                        action.getEvent().getMessage().addReaction("✅").queue();
-                        action.getEvent().getChannel().sendMessage("GG " + action.getEvent().getAuthor().getAsMention() + "! You found the number! It was " + number).queue();
-                        EventWaiter.unregister(action);
-                    }
-                    else {
-                        action.getEvent().getMessage().addReaction("❌").queue();
-                        action.getEvent().getMessage().delete().queueAfter(5,TimeUnit.SECONDS);
-                    }
-                });
-        EventWaiter.register(waiter);
+Waiter<GuildMessageReceivedEvent> waiter = new Waiter<>();
+waiter
+    .setEventType(GuildMessageReceivedEvent.class)
+    .setConditions(e -> !e.getMessage().equals(event.getMessage()) && e.getChannel().equals(event.getChannel()))
+    .setAutoRemove(false)
+    .setExpirationTime(2L, TimeUnit.MINUTES)
+    .setTimeoutAction(() -> event.getChannel().sendMessage("no one found :sob: The number was " + number).queue())
+    .setAction(action -> {
+    if(action.getEvent().getMessage().getContentRaw().equals(number)) {
+        action.getEvent().getMessage().addReaction("✅").queue();
+        action.getEvent().getChannel().sendMessage("GG " + action.getEvent().getAuthor().getAsMention() + "! You found the number! It was " + number).queue();
+        EventWaiter.unregister(action);
+    }
+    else {
+        action.getEvent().getMessage().addReaction("❌").queue();
+        action.getEvent().getMessage().delete().queueAfter(5,TimeUnit.SECONDS);
+    }
+});
+EventWaiter.register(waiter);
 ```
 
 * A reaction role
