@@ -50,7 +50,7 @@ _note that T is a template extending from [GenericEvent](https://github.com/DV8F
 | eventType | the class of event you'll be waiting for (e.g. GuildMessageReceived.class) |
 | conditions | all the conditions that an event must meet to execute the waiter action |
 | action | the action that will be executed if the conditions are fulfilled |
-| autoRemove | will the waiter be unregistered once the action is executed ? if false, you may want to [unregister the waiter](#how-to-register-and-unregister-the-waiter) by yourself |
+| autoRemove | will the waiter be unregistered once the action is executed ? if false, you may want to [unregister the waiter](#-how-to-register-and-unregister-the-waiter) by yourself |
 | long expirationTime | the time after which the waiter will be unregistered automatically |
 | TimeUnit timeUnit | the unit of the previous time |
 | Runnable timeoutAction | the action that will be executed once the waiter expires (null if no action) |
